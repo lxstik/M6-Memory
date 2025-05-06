@@ -1,8 +1,9 @@
 "use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useState } from "react";
+import { useClickContext } from "../context/ClickContext";
 
 interface TarjetaProps {
   nombre: string;
@@ -11,9 +12,11 @@ interface TarjetaProps {
 
 export default function Tarjeta({ nombre, imagen }: TarjetaProps) {
   const [contador, setContador] = useState(0);
+  const { incrementarTotalClicks } = useClickContext();
 
   const incrementarClicks = () => {
     setContador(contador + 1);
+    incrementarTotalClicks(); // Incrementa el contador global
   };
 
   return (
