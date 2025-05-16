@@ -120,3 +120,37 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Habilitar perspectiva para el contenedor */
+.perspective {
+  perspective: 1000px;
+}
+
+/* Contenedor de la tarjeta */
+.group > div {
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+/* Animación de volteo */
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Cara frontal */
+.group > div > div:first-child {
+  backface-visibility: hidden;
+  transform: rotateY(0deg);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Cara trasera */
+.group > div > div:last-child {
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}

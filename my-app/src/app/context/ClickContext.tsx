@@ -1,23 +1,23 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState } from "react";
 
-interface ClickContextProps {
+interface ClickContextType {
   totalClicks: number;
-  incrementarTotalClicks: () => void;
+  incrementarClicks: () => void;
 }
 
-const ClickContext = createContext<ClickContextProps | undefined>(undefined);
+const ClickContext = createContext<ClickContextType | undefined>(undefined);
 
-export function ClickProvider({ children }: { children: ReactNode }) {
+export function ClickProvider({ children }: { children: React.ReactNode }) {
   const [totalClicks, setTotalClicks] = useState(0);
 
-  const incrementarTotalClicks = () => {
+  const incrementarClicks = () => {
     setTotalClicks((prev) => prev + 1);
   };
 
   return (
-    <ClickContext.Provider value={{ totalClicks, incrementarTotalClicks }}>
+    <ClickContext.Provider value={{ totalClicks, incrementarClicks }}>
       {children}
     </ClickContext.Provider>
   );
@@ -26,7 +26,7 @@ export function ClickProvider({ children }: { children: ReactNode }) {
 export function useClickContext() {
   const context = useContext(ClickContext);
   if (!context) {
-    throw new Error("useClickContext must be used within a ClickProvider");
+    throw new Error("useClickContext debe usarse dentro de un ClickProvider");
   }
   return context;
 }
