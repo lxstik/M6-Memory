@@ -5,17 +5,16 @@ import GrupoTarjetas from "./components/GrupoTarjetas";
 import { useClickContext } from "./context/ClickContext";
 
 export default function Home() {
-  const { totalClicks, incrementarClicks } = useClickContext();
+  const { totalClicks, incrementarTotalClicks } = useClickContext();
   const [tarjetas, setTarjetas] = useState<
     { id: number; nombre: string; imagen: string; volteada: boolean; encontrada: boolean }[]
   >([]);
   const [seleccionadas, setSeleccionadas] = useState<number[]>([]);
-  const [puntos, setPuntos] = useState(0); // Contador de puntos
-  const [tiempoRestante, setTiempoRestante] = useState(0); // Temporizador
-  const [juegoIniciado, setJuegoIniciado] = useState(false); // Estado del juego
-  const [mensaje, setMensaje] = useState<string | null>(null); // Mensaje de resultado
+  const [puntos, setPuntos] = useState(0);
+  const [tiempoRestante, setTiempoRestante] = useState(0);
+  const [juegoIniciado, setJuegoIniciado] = useState(false);
+  const [mensaje, setMensaje] = useState<string | null>(null);
 
-  // Función para barajar las tarjetas
   function barajarTarjetas(tarjetas) {
     const barajadas = [...tarjetas];
     for (let i = barajadas.length - 1; i > 0; i--) {
@@ -25,12 +24,11 @@ export default function Home() {
     return barajadas;
   }
 
-  // Obtener Pokémon aleatorios de la API
   useEffect(() => {
     async function obtenerPokemons() {
       try {
         const idsAleatorios = Array.from({ length: 9 }, () =>
-          Math.floor(Math.random() * 898) + 1 // IDs de Pokémon (1 a 898)
+          Math.floor(Math.random() * 898) + 1
         );
 
         const pokemons = await Promise.all(
@@ -45,10 +43,9 @@ export default function Home() {
           })
         );
 
-        // Duplicar y barajar las tarjetas
         const tarjetasDuplicadas = [...pokemons, ...pokemons].map((pokemon, index) => ({
           ...pokemon,
-          id: index + 1, // Asignar un ID único a cada tarjeta
+          id: index + 1,
           volteada: false,
           encontrada: false,
         }));
@@ -62,14 +59,13 @@ export default function Home() {
     obtenerPokemons();
   }, []);
 
-  // Manejar clic en una tarjeta
   const manejarClickTarjeta = (id: number) => {
-    if (!juegoIniciado || tiempoRestante <= 0) return; // No permitir clics si el juego no ha iniciado o el tiempo terminó
+    if (!juegoIniciado || tiempoRestante <= 0) return;
     if (seleccionadas.length === 2 || tarjetas.find((t) => t.id === id)?.volteada) {
       return;
     }
 
-    incrementarClicks();
+    incrementarTotalClicks(); // <--- CORRECTO
 
     const nuevasTarjetas = tarjetas.map((tarjeta) =>
       tarjeta.id === id ? { ...tarjeta, volteada: true } : tarjeta
@@ -85,7 +81,7 @@ export default function Home() {
       const tarjeta2 = tarjetas.find((t) => t.id === segunda);
 
       if (tarjeta1?.nombre === tarjeta2?.nombre) {
-        setPuntos((prev) => prev + 1); // Incrementar puntos por cada pareja encontrada
+        setPuntos((prev) => prev + 1);
         setTarjetas((prev) =>
           prev.map((tarjeta) =>
             tarjeta.id === primera || tarjeta.id === segunda
@@ -108,18 +104,16 @@ export default function Home() {
     }
   };
 
-  // Iniciar el juego
   const iniciarJuego = () => {
     setJuegoIniciado(true);
-    setTiempoRestante(40); // Cambiar el temporizador a 40 segundos
-    setPuntos(0); // Reiniciar los puntos
-    setMensaje(null); // Reiniciar el mensaje
+    setTiempoRestante(40);
+    setPuntos(0);
+    setMensaje(null);
     setTarjetas((prev) =>
       prev.map((tarjeta) => ({ ...tarjeta, volteada: false, encontrada: false }))
     );
   };
 
-  // Temporizador
   useEffect(() => {
     if (juegoIniciado && tiempoRestante > 0) {
       const intervalo = setInterval(() => {
@@ -128,19 +122,17 @@ export default function Home() {
 
       return () => clearInterval(intervalo);
     } else if (juegoIniciado && tiempoRestante === 0) {
-      // Verificar si el jugador perdió
       if (!tarjetas.every((tarjeta) => tarjeta.encontrada)) {
         setMensaje("Se acabó el tiempo. ¡Inténtalo de nuevo! ⏳");
-        setJuegoIniciado(false); // Finalizar el juego
+        setJuegoIniciado(false);
       }
     }
   }, [juegoIniciado, tiempoRestante]);
 
-  // Verificar si el jugador ganó
   useEffect(() => {
     if (juegoIniciado && tarjetas.every((tarjeta) => tarjeta.encontrada)) {
       setMensaje("¡Felicidades! Has ganado el juego 🎉");
-      setJuegoIniciado(false); // Finalizar el juego
+      setJuegoIniciado(false);
     }
   }, [juegoIniciado, tarjetas]);
 

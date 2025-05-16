@@ -8,15 +8,17 @@ import { useClickContext } from "../context/ClickContext";
 interface TarjetaProps {
   nombre: string;
   imagen: string;
+  onClick?: () => void;
 }
 
-export default function Tarjeta({ nombre, imagen }: TarjetaProps) {
+export default function Tarjeta({ nombre, imagen, onClick }: TarjetaProps) {
   const [contador, setContador] = useState(0);
   const { incrementarTotalClicks } = useClickContext();
 
   const incrementarClicks = () => {
     setContador(contador + 1);
-    incrementarTotalClicks(); // Incrementa el contador global
+    incrementarTotalClicks();
+    if (onClick) onClick();
   };
 
   return (

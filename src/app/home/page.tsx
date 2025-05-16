@@ -1,5 +1,6 @@
 import Tarjeta from "@/app/components/Tarjeta";
 import TotalClicks from "@/app/components/TotalClicks";
+import { useClickContext } from "./context/ClickContext";
 
 export default function Home() {
   return (
