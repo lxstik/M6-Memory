@@ -1,4 +1,4 @@
 export default function JuegoPage() {
-    return <h1>Joc</h1>;
+    return <h1>Juego</h1>;
   }
   

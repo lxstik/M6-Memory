@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { ClickProvider } from './context/ClickContext';
 
 export const metadata: Metadata = {
-  title: 'La Meva App',
+  title: 'Memory Pokemon',
   description: 'Aplicació amb layout compartit i navegació',
 };
 

@@ -10,7 +10,7 @@ export default function Header() {
     <header className="w-full border-b shadow-sm px-4 py-2">
       <nav className="max-w-5xl mx-auto flex items-center justify-between">
         <div className="text-xl font-bold cursor-pointer" onClick={() => router.push('/')}>
-          🎮 La Meva App
+          Memory M6
         </div>
         <div className="space-x-2">
           <Button variant="ghost" onClick={() => router.push('/')}>Inicio</Button>
