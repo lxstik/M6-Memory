@@ -5,7 +5,6 @@ import { ClickProvider } from './context/ClickContext';
 
 export const metadata: Metadata = {
   title: 'Memory Pokemon',
-  description: 'Aplicació amb layout compartit i navegació',
 };
 
 export default function RootLayout({

@@ -1,6 +1,7 @@
 import React from "react";
 import "../globals.css";
 
+// defino la interfaz para las tarjetas
 interface Tarjeta {
   id: number;
   nombre: string;
@@ -9,11 +10,14 @@ interface Tarjeta {
   encontrada: boolean;
 }
 
+// defino la interfaz para las props del componente
 interface Props {
   tarjetas: Tarjeta[];
-  manejarClickTarjeta: (id: number) => void;
+  //llamo a la funcion que se ocupa de manejar el click en la tarjeta
+  manejarClickTarjeta(id: number): void;
 }
 
+//defino el componente GrupoTarjetas, genero el grid de tarjetas, paso props y defino el evento onClick. también aplico los estilos con tailwind
 export default function GrupoTarjetas({ tarjetas, manejarClickTarjeta }: Props) {
   return (
     <div className="grid grid-cols-6 gap-4 justify-center">

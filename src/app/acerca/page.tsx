@@ -1,4 +1,4 @@
 export default function AcercaPage() {
-    return <h1>Sobre nosaltres</h1>;
+    return <h1>Sobre nosotros</h1>;
   }
   
