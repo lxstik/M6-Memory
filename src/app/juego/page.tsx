@@ -20,7 +20,7 @@ export default function Juego() {
 
 
   //Funcion para barrajar que recibe el array de tarjetas y devuelve un nuevo array barajado
-  function barajarTarjetas(tarjetas) {
+  function barajarTarjetas(tarjetas: any[]) {
     //creo una copia del array original
     const barajadas = [...tarjetas];
     //un bucle que recorre el array desde el final hasta el principio
