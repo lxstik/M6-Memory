@@ -1,4 +1,3 @@
-import Tarjeta from "@/app/components/Tarjeta";
 import TotalClicks from "@/app/components/TotalClicks";
 
 export default function Home() {
@@ -6,7 +5,6 @@ export default function Home() {
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Colección de Juegos</h1>
       <TotalClicks />
-      
     </div>
   );
 }

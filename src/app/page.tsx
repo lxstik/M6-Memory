@@ -1,9 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import GrupoTarjetas from "./components/GrupoTarjetas";
-import { useClickContext } from "./context/ClickContext";
-
 export default function Home() {
   return (
     <>
