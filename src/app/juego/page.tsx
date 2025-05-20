@@ -18,9 +18,14 @@ export default function Juego() {
   const [juegoIniciado, setJuegoIniciado] = useState(false);
   const [mensaje, setMensaje] = useState<string | null>(null);
 
-
   //Funcion para barrajar que recibe el array de tarjetas y devuelve un nuevo array barajado
-  function barajarTarjetas(tarjetas: any[]) {
+  function barajarTarjetas(tarjetas: {
+    id: number;
+    nombre: string;
+    imagen: string;
+    volteada?: boolean;
+    encontrada?: boolean;
+  }[]) {
     //creo una copia del array original
     const barajadas = [...tarjetas];
     //un bucle que recorre el array desde el final hasta el principio
@@ -33,7 +38,6 @@ export default function Juego() {
     //devuelvo el array barajado
     return barajadas;
   }
-
 
   //creo este useEffect para obtener los pokemons de la API
   useEffect(() => {
@@ -62,7 +66,6 @@ export default function Juego() {
           });
         }
 
-
         //creo un array de objetos con los pokemons duplicados, para que haya dos tarjetas iguales, con el .map recorro el array de pokemons
         const tarjetasDuplicadas = [...pokemons, ...pokemons].map((pokemon, index) => ({
           //le asigno un id, la propiedad "volteada" en false y la propiedad "encontrada" en false
@@ -76,7 +79,7 @@ export default function Juego() {
       }
       //si hay un error muestra mensaje por consola
       catch (error) {
-        console.error("No se ha podido sacar al pokemon de la API", error);;
+        console.error("No se ha podido sacar al pokemon de la API", error);
       }
     }
     //llamo a la funcion para obtener los pokemons
@@ -88,26 +91,7 @@ export default function Juego() {
     // si el juego no ha empezado o el tiempo se ha acabado, no se puede voltear las tarjetas
     if (!juegoIniciado || tiempoRestante <= 0) return;
 
-    // si ya hay dos tarjetas seleccionadas, no dejamos seleccionar otra (LA LOGICA DE BLOQUEO NO FUNCIONA)
-    //  const yaHayDosSeleccionadas = seleccionadas.length === 2;
-
-    // buscamos la tarjeta que se ha clicado en el array de tarjetas con el .find
-    const tarjetaClicada = tarjetas.find((t) => t.id === id);
-
-    // si la tarjeta ya está volteada, no se le puede hacer nada
-    const yaEstaVolteada = tarjetaClicada?.volteada === true;
-
-    // si alguna de las dos condiciones anteriores se cumple, cierro la funcion
-    //  if (yaHayDosSeleccionadas || yaEstaVolteada) {
-    //    return;
-    // }
-
     incrementarTotalClicks(); //sumo click al total de clicks
-
-
-
-
-
 
     // creo un array aparte para guardar las tarjetas actualizadas
     const nuevasTarjetas = [];
@@ -130,15 +114,10 @@ export default function Juego() {
     // hay que actualizar el estado de las tarjetas con el nuevo array
     setTarjetas(nuevasTarjetas);
 
-
-
-
-
     //creo un array nuevo con las tarjetas seleccionadas
     const nuevasSeleccionadas = [...seleccionadas, id];
     //guardo dos tarjetas seleccionadas para mas tarde compararlas
     setSeleccionadas(nuevasSeleccionadas);
-
 
     // si hay dos tarjetas seleccionadas, comparo sus nombres
     if (nuevasSeleccionadas.length === 2) {
@@ -197,7 +176,6 @@ export default function Juego() {
     }
   };
 
-
   //creo una funcion para reiniciar el juego y definir los estados iniciales
   const iniciarJuego = () => {
     setJuegoIniciado(true);
@@ -209,7 +187,6 @@ export default function Juego() {
       prev.map((tarjeta) => ({ ...tarjeta, volteada: false, encontrada: false }))
     );
   };
-
 
   //creo un useEffect para manejar el tiempo restante
   useEffect(() => {
@@ -228,8 +205,7 @@ export default function Juego() {
         setJuegoIniciado(false);
       }
     }
-  }, [juegoIniciado, tiempoRestante]);
-
+  }, [juegoIniciado, tiempoRestante]); // ← tarjetas quitado para no romper el contador
 
   //creo un useEffect para comprobar si el juego ha terminado
   useEffect(() => {
@@ -240,7 +216,6 @@ export default function Juego() {
       setJuegoIniciado(false);
     }
   }, [juegoIniciado, tarjetas]);
-
 
   //devuelvo el boton de iniciar el juego, el tiempo restante, los puntos y el total de clicks y grupo de tarjetas
   return (
