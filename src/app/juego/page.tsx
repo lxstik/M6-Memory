@@ -20,24 +20,27 @@ export default function Juego() {
 
   //Funcion para barrajar que recibe el array de tarjetas y devuelve un nuevo array barajado
   function barajarTarjetas(tarjetas: {
-    id: number;
-    nombre: string;
-    imagen: string;
-    volteada?: boolean;
-    encontrada?: boolean;
-  }[]) {
-    //creo una copia del array original
-    const barajadas = [...tarjetas];
-    //un bucle que recorre el array desde el final hasta el principio
-    for (let i = barajadas.length - 1; i > 0; i--) {
-      //genero un numero random
-      const j = Math.floor(Math.random() * (i + 1));
-      //intercambio el elemento actual (de la posicion "i") con el elemento en la posicion "j", 
-      [barajadas[i], barajadas[j]] = [barajadas[j], barajadas[i]];
-    }
-    //devuelvo el array barajado
-    return barajadas;
+  id: number;
+  nombre: string;
+  imagen: string;
+  volteada?: boolean;
+  encontrada?: boolean;
+}[]) {
+  const barajadas = [...tarjetas];
+
+  for (let i = barajadas.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [barajadas[i], barajadas[j]] = [barajadas[j], barajadas[i]];
   }
+
+  // Asegurarse de que todas las tarjetas tienen los campos requeridos
+  return barajadas.map(t => ({
+    ...t,
+    volteada: t.volteada ?? false,
+    encontrada: t.encontrada ?? false,
+  }));
+}
+
 
   //creo este useEffect para obtener los pokemons de la API
   useEffect(() => {
